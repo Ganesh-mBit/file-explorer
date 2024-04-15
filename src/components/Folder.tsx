@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { FolderType } from "../types";
+import { AddFile, AddFolder } from "../icons";
 
 interface Props {
   explorer: FolderType;
+  handleCreateFolder: (
+    folderId: string | number,
+    name: string,
+    isFolder: boolean
+  ) => void;
 }
 
-export const Folder = ({ explorer }: Props) => {
+export const Folder = ({ explorer, handleCreateFolder }: Props) => {
   const [expandMore, setExpandMore] = useState(false);
   const [showInput, setShowInput] = useState({
     visible: false,
@@ -24,6 +30,7 @@ export const Folder = ({ explorer }: Props) => {
   const onAddFolder = (e: any) => {
     if (e.keyCode === 13 && e.target.value) {
       // Add Logic for adding folder or file
+      handleCreateFolder(explorer.id, e.target.value, showInput.isFolder);
       setShowInput({ visible: false, isFolder: false });
     }
   };
@@ -32,22 +39,22 @@ export const Folder = ({ explorer }: Props) => {
     return (
       <div className="flex flex-col gap-1 cursor-pointer">
         <div
-          className="flex justify-between"
+          className="flex justify-between items-center"
           onClick={() => setExpandMore(!expandMore)}
         >
           <span>📁 {explorer.name}</span>
-          <div className="flex gap-2">
+          <div className="flex">
             <button
-              className="px-2 py-1 text-xs bg-zinc-600 cursor-pointer"
+              className="p-2 hover:bg-zinc-700 rounded-full"
               onClick={(e) => handleNewFolder(e, true)}
             >
-              Floder +
+              <AddFolder />
             </button>
             <button
-              className="px-2 py-1 text-xs bg-zinc-600 cursor-pointer"
-              onClick={(e) => handleNewFolder(e, true)}
+              className="p-2 hover:bg-zinc-700 rounded-full"
+              onClick={(e) => handleNewFolder(e, false)}
             >
-              File +
+              <AddFile />
             </button>
           </div>
         </div>
@@ -71,7 +78,11 @@ export const Folder = ({ explorer }: Props) => {
             </div>
           )}
           {explorer.items.map((ele) => (
-            <Folder explorer={ele} key={ele.id} />
+            <Folder
+              handleCreateFolder={handleCreateFolder}
+              explorer={ele}
+              key={ele.id}
+            />
           ))}
         </div>
       </div>

@@ -1,5 +1,5 @@
 export interface FolderType {
-  id: string;
+  id: string | number;
   name: string;
   isFolder: boolean;
   items: FolderType[];
