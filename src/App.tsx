@@ -26,7 +26,7 @@ const App = () => {
         />
       </section>
       <section className="flex-1 p-5 dark:bg-zinc-800/70 rounded-lg overflow-hidden">
-        Dashboard
+        Show Folder Items Here
       </section>
     </main>
   );
